@@ -204,7 +204,7 @@ int countdown() {
     return 0;
   }
 
-int main() {
+int differentDigits() {
   int n;
   cout << "Моля, въведете число: ";cin >> n;
   int m = 0;
@@ -228,4 +228,40 @@ int main() {
   else
     cout << " НЯМА";
   cout << " еднакви цифри\n";
+}
+
+int pyramid2() {
+  int n;
+  cout << "Моля, въведете число: ";cin >> n;
+  for(int i = 1; i <= n; i++) {
+    //    for(int j = i; j < 2 * i; j++)
+    //  cout << j << ' ';
+    for(int j = 0; j < i; j++)
+      cout << i + j << ' ';
+    cout << endl;
+  }
+  return 0;
+}
+
+void printHourglassRow(int i, int n) {
+  int j;
+  for(j = n; j > i; j--)
+    cout << "  ";
+  // j == i
+  for(; j >= 1; j--)
+    cout << j << ' ';
+  for(j = 2; j <= i; j++)
+    cout << j << ' ';
+  cout << endl;
+}
+
+int main() {
+  int n;
+  cout << "Моля, въведете число: ";cin >> n;
+  for(int i = n; i >= 1; i--)
+    printHourglassRow(i, n);
+  for(int i = 2; i <= n; i++) {
+    printHourglassRow(i, n);
+  }
+  return 0;
 }
