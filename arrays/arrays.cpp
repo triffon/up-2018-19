@@ -91,9 +91,110 @@ void testArrays() {
     cout << "a[" << i << "] = " << a[i] << endl;
 }
 
+void saw() {
+  const int MAX = 100;
+  // !!! int a[n];
+  int a[MAX];
+  int n;
+  do {
+    cout << "Моля, въведете брой елементи на масива: ";
+    cin >> n;
+  } while (n < 1 || n > MAX);
+  // 1 <= n <= MAX
+  // !!! int a[n]; // !!! variable-length array
+  for(int i = 0; i < n; i++) {
+    cout << "Моля ,въведете a[" << i << "] = ";
+    cin >> a[i];
+  }
 
+  bool isSaw = true;
+  int i = 1;
+  /* if (a[i] > a[i-1] && a[i] > a[i+1])
+     isSaw = true;
+     else
+     isSaw = false; */
+  /*
+  for(i = 1; isSaw && i < n; i += 2)
+    // !!! isSaw = a[i] > a[i-1] && a[i] > a[i+1];
+    if (!(a[i] > a[i-1] && (i == n - 1 || a[i] > a[i+1])))
+      isSaw = false;
+
+    // Граничен случай: i == n - 1
+  //if (i == n - 1 && !(a[n-1] > a[n-2]))
+  //  isSaw = false;
+  */
+  // bool type = a[0] < a[1];
+  /*
+  if (a[0] < a[1])
+    type = true;
+  else
+    type = false;
+  */
+  /*
+  while (i < n &&
+         ((a[0] < a[1] && a[i] > a[i-1] && (i == n - 1 || a[i] > a[i+1])) ||
+          (a[0] > a[1] && a[i] < a[i-1] && (i == n - 1 || a[i] < a[i+1]))))
+    i += 2;
+  */
+  while (i < n - 1 &&
+         (a[i] > a[i-1] && a[i] > a[i+1] ||
+          a[i] < a[i-1] && a[i] < a[i+1]))
+    i++;
+  
+  cout << "Редицата ";
+  if (i < n - 1)
+    cout << "НЕ ";
+  cout << "e трион\n";
+}
+
+void merge() {
+  const int MAX = 100;
+  int a[MAX], b[MAX], c[2*MAX];
+  int n, m;
+  do {
+    cout << "Моля, въведете брой елементи на масива a: ";
+    cin >> n;
+  } while (n < 1 || n > MAX);
+  // 1 <= n <= MAX
+  for(int i = 0; i < n; i++) {
+    cout << "Моля ,въведете a[" << i << "] = ";
+    cin >> a[i];
+  }
+  do {
+    cout << "Моля, въведете брой елементи на масива b: ";
+    cin >> m;
+  } while (m < 1 || m > MAX);
+  // 1 <= m <= MAX
+  for(int i = 0; i < m; i++) {
+    cout << "Моля ,въведете b[" << i << "] = ";
+    cin >> b[i];
+  }
+
+  int i = 0, j = 0, k = 0;
+  while (i < n && j < m)
+    if (a[i] < b[j])
+      // вземаме от a
+      c[k++] = a[i++];
+    else
+      // вземаме от b
+      c[k++] = b[j++];
+  // i == n || j == m, но не и двете едновременно
+  // остава да прехвърлим останалите елементи
+  while (i < n)
+    // вземаме от a
+    c[k++] = a[i++];
+  while (j < m)
+    // вземаме от b
+    c[k++] = b[j++];
+
+  for(i = 0; i < m + n; i++)
+    cout << c[i] << ' ';
+  cout << endl;
+}
 
 int main() {
-  testArrays();
+  //  testArrays();
+  // saw();
+  merge();
   return 0;
 }
