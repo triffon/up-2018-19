@@ -10,8 +10,12 @@ void teststrings() {
   char word2[MAX] = "why?";
   cout << word << endl; // cin >> word;
   cin.getline(word, MAX);
-  //cin.getline(word2, MAX);
+  char c = cin.get();
+  cout << ">" << (int)c << "<" << endl;
+  cout << ">" << (int)cin.good() << "<" << endl;
+  cin.getline(word2, MAX);
   cout << word << '-' << word2 << endl;
+  return;
   cout << strcpy(word2, word) << endl;
   cout << word[0] << endl;
   word[1] = 'o';
@@ -186,12 +190,12 @@ void strnfunctions() {
 }
 
 int main() {
-  // teststrings();
+  teststrings();
   // mystrfunctions();
   // strfunctions();
   // checkpalindrome();
   // countwords();
   // calculator();
-  strnfunctions();
+  // strnfunctions();
   return 0;
 }
