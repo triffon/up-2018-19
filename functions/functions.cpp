@@ -3,7 +3,7 @@ using namespace std;
 
 #include "functions.h"
 
-int main() {
+int triangleArea() {
   // прочитане на координатите на точките на триъгълника
   cout << "Моля, въведене координатите на върховете на триъгълника:\n";
   double xA = readCoordinate('A', 'x');
