@@ -104,7 +104,21 @@ void testVoidPointers() {
   q = &y;
   int* s = (int*)q; // !!!
   cout << *s << endl;
-  cout << *q << endl;
+  // !!! cout << *q << endl;
+}
+
+void testReferences() {
+  int x = 3, // цяло число
+    *p = &x, // указател към цяло число
+    &q = x, // препратка към цяло число
+    b[5] = { 1, 2, 3, 4, 5 }; // масив от цели числа
+  q += 10;
+  cout << x << endl;
+  (*p) += 10;
+  cout << x << endl;
+  int& r = b[2];
+  r += 10;
+  cout << b[2] << endl;
 }
 
 int main() {
@@ -112,7 +126,8 @@ int main() {
   // testPointers();
   // testPointerArithmetic();
   // testCharPointers();
-  testVoidPointers();
+  // testVoidPointers();
+  testReferences();
   cout << "---------------------\n";
   return 0;
 }
