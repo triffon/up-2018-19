@@ -179,7 +179,7 @@ void matricesFunctions() {
   
 }
 
-int main() {
+int main2() {
   cout << "-------------------------" << endl;
 //  cbvExample();
 //  cbrExample();
