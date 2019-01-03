@@ -55,7 +55,28 @@ void multiplyMatrices(int a[][MAX], int b[][MAX], int c[][MAX],
     }
 }
 
-int main() {
+int* badpointer(int* p) {
+  // !!! int y = x;
+  // !!! return &x;
+  // !!! return &y;
+  return p;
+}
+
+int& badreference(int& x) {
+  // !!! return x;
+  int y = x;
+  // !!! return y;
+  return x;
+}
+
+int* badarray(int x, int b[]) {
+  // !!! int a[6] = { 0, 1, x, 3, 4, 5 };
+  // !!! return a;
+  b[2] = x;
+  return b + 1;
+}
+
+void testfunctions() {
   char sa[MAX][MAXC];
   int n = readStringArray(sa);
   printStringArray(sa, n);
@@ -65,4 +86,38 @@ int main() {
   readMatrix(b, n, k);
   multiplyMatrices(a, b, c, m, n, k);
   printMatrix(c, m, k);
+}
+
+void badfunctions() {
+  // !!! int* p = badpointer(3);
+  int x = 10;
+  int* p = badpointer(&x);
+  cout << *p << endl;
+  // !! cout << badreference(3) << endl;
+  badreference(x) = 20;
+  cout << x << endl;
+  int c[6] = { 0, 1, 2, 3, 4, 5 };
+  p = badarray(x, c);
+  cout << p[1] << ' ' << p[2] << endl;
+}
+
+char const* our_strchr(char const* s, int c) {
+  while (*s && *s != c)
+    s++;
+  // *s == '\0' || *s == c
+  if (*s != c)
+    return nullptr;
+  return s;
+}
+
+void teststringfunctions() {
+  cout << our_strchr("Hello, world!", 'l') << endl;
+  if (!our_strchr("Hello, world!", 'z'))
+    cout << "z не се среща\n";
+}
+
+int main() {
+  // testfunctions();
+  // badfunctions();
+  teststringfunctions();
 }
