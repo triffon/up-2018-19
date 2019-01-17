@@ -101,6 +101,7 @@ const int MAX_PATH = MAX * MAX;
   Записва в масива path пътя до съкровището от текущата позиция
   (row, col) е текущата позиция
   currentMoves е текущият брой стъпки, който сме направили до момента
+  Връща за колко стъпки можем да стигнем до съкровището от текущата позиция
   Връща -1, ако не е възможно да се стигне до него.
 */
 int findTreasurePath(char labyrinth[][MAX], int row, int col, int& trow, int& tcol, int path[2][MAX_PATH], int currentMoves) {
@@ -158,21 +159,76 @@ int findTreasurePath(char labyrinth[][MAX], int row, int col, int& trow, int& tc
   return -1;
 }
 
+
 void printPath(int path[2][MAX_PATH], int length) {
   for(int i = 0; i < length; i++)
     cout << "(" << path[0][i] << ", " << path[1][i] << ") ";
   cout << endl;
 }
 
+/*
+  Функцията ще извежда всички пътища до съкровището
+*/
+void findAllTreasurePaths(char labyrinth[][MAX], int row, int col, int& trow, int& tcol, int path[2][MAX_PATH], int currentMoves) {
+  // някой ни е пуснал на позиция (row,col)
+  // мога ли въобще да стъпя тук?
+  cout << currentMoves << ": " << "Можем ли да стъпим на позиция (" << row << ", " << col << ")? ";
+  if (row < 0 || col < 0 ||          // излизаме извън лабиринта на север или запад
+      labyrinth[row][col] == '\0' || // излизаме извън лабиринта на юг или изток
+      labyrinth[row][col] == '*'  ||  // има стена
+      labyrinth[row][col] == '.') {  // има троха
+
+    cout << "не!" << endl;
+    // отказваме се
+    return;
+  }
+  cout << "да!" << endl;
+  // стъпваме в лабиринта!
+  // добавяме текущата позиция в пътя
+  // тя трябва да се запише в колоната с индекс currentMoves
+  path[0][currentMoves] = row;
+  path[1][currentMoves] = col;
+  if (labyrinth[row][col] == '$') { // намерихме съкровището!
+    trow = row;
+    tcol = col;
+    cout << currentMoves << ": " << "Намерихме път до съкровището: ";
+    printPath(path, currentMoves + 1);
+    return;
+  }
+  // пускаме "трохичка", за да знаем да не минаваме оттук втори път
+  labyrinth[row][col] = '.';
+  // трябва да опитаме посоките една по една
+  // север
+  cout << currentMoves << ": " << "Пробваме да тръгнем на север" << endl;
+  findAllTreasurePaths(labyrinth, row - 1, col    ,
+                               trow, tcol, path, currentMoves + 1);
+  // изток
+  cout << currentMoves << ": " << "Пробваме да тръгнем на изток" << endl;
+  findAllTreasurePaths(labyrinth, row    , col + 1,
+                            trow, tcol, path, currentMoves + 1);
+  // юг
+  cout << currentMoves << ": " << "Пробваме да тръгнем на юг" << endl;
+  findAllTreasurePaths(labyrinth, row + 1, col    ,
+                            trow, tcol, path, currentMoves + 1);
+  // запад
+  cout << currentMoves << ": " << "Пробваме да тръгнем на запад" << endl;
+  findAllTreasurePaths(labyrinth, row    , col - 1,
+                            trow, tcol, path, currentMoves + 1);
+  cout << "Изследвахме всички посоки, връщаме се назад" << endl;
+  // прибираме си трохичката
+  labyrinth[row][col] = ' ';
+}
+
 void testLabyrinth() {
   char labyrinth[MAX][MAX] = { "* ** ",
                                "     ",
-                               " ***$",
+                               " *** ",
                                "    *",
-                               "  ** " };
+                               "$ ** " };
   int startrow = 4, startcol = 1;
   int treasurerow, treasurecol;
   int path[2][MAX_PATH];
+  /*
   int moves = findTreasurePath(labyrinth, startrow, startcol, treasurerow, treasurecol, path, 0);
   if (moves > -1) {
     cout << "Намерихме съкровището на позиция (" << treasurerow << ", " << treasurecol << ") за " << moves << " стъпки!" << endl;
@@ -181,6 +237,9 @@ void testLabyrinth() {
   }
   else
     cout << "Не успяхме да намерим съкровище" << endl;
+  */
+  findAllTreasurePaths(labyrinth, startrow, startcol,
+                       treasurerow, treasurecol, path, 0);
 }
 
 int main() {
